@@ -1,20 +1,18 @@
-# Use the official Ubuntu 20.04 LTS image as the base image
-FROM ubuntu:20.04
+FROM node
 
 # Install the latest version of Node.js and npm
-RUN apt-get update && \
-    apt-get install -y curl && \
-    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
-    apt-get install -y nodejs
+ENV TZ="Asia/Kolkata"
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Set the working directory
-#WORKDIR /app
+RUN apt update && \
+    apt install -yq tzdata && \
+    ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
 
-# Clone the remote Git repository
-#RUN git clone <repository-url>
+WORKDIR /sourcecode/dashboard-automation/
 
-# Install the project dependencies
-#RUN cd <project-directory> && npm install
+COPY . .
 
-# Set the command to run when the container starts
-#CMD ["node", "<project-directory>/index.js"]
+RUN npm install -D @playwright/test && \
+    npx playwright install && \
+    npx playwright install-deps
