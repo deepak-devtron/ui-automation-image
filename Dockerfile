@@ -1,4 +1,4 @@
-FROM node
+FROM node:20.0
 # Install the latest version of Node.js and npm
 ENV TZ="Asia/Kolkata"
 ENV DEBIAN_FRONTEND=noninteractive
