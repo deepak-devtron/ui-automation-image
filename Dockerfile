@@ -5,6 +5,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install tzdata -yq
 RUN ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata
+RUN mkdir sourcecode
+RUN cd sourcecode
+RUN mkdir dashboard-automation
+RUN cd ..
 WORKDIR /sourcecode/dashboard-automation/
 COPY . /sourcecode/dashboard-automation/
 RUN npm install -D @playwright/test
